@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function syncFnc() {
+            let num = 10;
+            console.log(num);
+
+            num *= 2;
+            console.log(num);
+        }
+        syncFnc();
+
+        //비동기방식 : 작업이 먼저 끝나는거부터 화면에 표시
+        function asyncFnc() {
+            //setTimeout 매개값 두개, 뒤 숫자만큼 있다가 실행
+            let friends = [];
+            setTimeout(function() {
+                friends.push({name:"홍길동", age:26, phone:"010-1111"});
+                console.log(friends);
+            },3000);
+
+            setTimeout(function() {
+                friends.push({name:"김길동", age:20, phone:"010-2222"});
+                console.log(friends);
+            },2000);
+
+            setTimeout(function() {
+                friends.push({name:"박길동", age:36, phone:"010-3333"});
+                console.log(friends);
+            },1000);
+
+            console.log("end : "+friends);
+        }
+
+        asyncFnc();
+    </script>
+    
+</body>
+</html>

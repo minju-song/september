@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<style>
+body {
+  margin: 0;
+  min-width: 250px;
+}
+
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove margins and padding from the list */
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the list items */
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+  background: #ddd;
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
+}
+
+/* Style the close button */
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 12px 16px 12px 16px;
+}
+
+.close:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Style the header */
+.header {
+  background-color: #f44336;
+  padding: 30px 40px;
+  color: white;
+  text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the input */
+input {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 75%;
+  padding: 10px;
+  float: left;
+  font-size: 16px;
+}
+
+/* Style the "Add" button */
+.addBtn {
+  padding: 10px;
+  width: 25%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0;
+}
+
+.addBtn:hover {
+  background-color: #bbb;
+}
+</style>
+</head>
+<body>
+
+<div id="myDIV" class="header">
+  <h2 style="margin:5px">My To Do List</h2>
+  <input type="text" id="myInput" placeholder="Title...">
+  <input type="text" id="dueDate" placeholder="2023-09-12...">
+  <span onclick="newElement()" class="addBtn">Add</span>
+</div>
+
+<ul id="myUL">
+  <li><span class="num">1.</span> Hit the gym (Due: 2023-09-08)</li>
+  <li class="checked"><span class="num">2.</span> Pay bills (Due: 2023-09-08)</li>
+  <li><span class="num">3.</span> Meet George (Due: 2023-09-08)</li>
+  <li><span class="num">4.</span> Buy eggs (Due: 2023-09-08)</li>
+  <li><span class="num">5.</span> Read a book (Due: 2023-09-08)</li>
+  <li><span class="num">6.</span> Organize office (Due: 2023-09-08)</li>
+</ul>
+
+<script>
+	
+	let ajx = new XMLHttpRequest();
+        ajx.open('get', '../todolist.do'); // XML = eXtensible Markup Language
+        ajx.send();
+        ajx.onload = func;
+        
+        function func() {
+			console.log(ajx.responseText);
+		}
+// Create a "close" button and append it to each list item
+// var myNodelist = document.getElementsByTagName("LI");
+// console.log(myNodelist);
+var myNodelist = $("LI");
+console.log(myNodelist);
+
+// var i;
+
+// for (i = 0; i < myNodelist.length; i++) {
+//   // var span = $('<span />').append(document.createTextNode("\u00D7"));
+//   // var span = $('<span />');
+//   // span.text("\u00D7");
+//   // console.log(span);
+//   var span = document.createElement("SPAN");
+//   var txt = document.createTextNode("\u00D7");
+//   // span.attr('class','close');
+//   // console.log(span+" "+myNodelist[i]);
+//   span.className = "close";
+//   span.append(txt);
+//   myNodelist[i].append(span);
+//   // console.log(myNodelist[i].children[0].val());
+// }
+
+$('li').append(
+  $('<span />').attr('class','close').text("\u00D7")
+);
+
+
+
+
+// var close = $('.close');
+// Click on a close button to hide the current list item
+// var close = document.getElementsByClassName("close");
+// var i;
+// for (i = 0; i < close.length; i++) {
+//   close[i].onclick = function() {
+//     var div = this.parentElement;
+//     div.style.display = "none";
+//   }
+// }
+
+$('.close').on('click', function(e) {
+  this.parentElement.style.display = "none";
+  console.log($('li:visible').length);
+  let i = 1;
+  $('li:visible').each(function(idx, e){
+    console.log($(e).contents()[0].textContent);
+    $(e).contents()[0].textContent = (idx+1)+". ";
+    // console.log(idx);
+    // console.log(this.children[0]);
+    // this.children[0].innerText(idx+1+". ");
+    // this.children[0].
+    // $('.num').text((idx+1)+". ");
+  })
+  // $('li:visible .num').text($('li:visible').index()+". ");
+})
+
+// Add a "checked" symbol when clicking on a list item
+// var list = document.querySelector('ul');
+// list.addEventListener('click', function(ev) {
+//   if (ev.target.tagName === 'LI') {
+//     ev.target.classList.toggle('checked');
+//   }
+// }, false);
+
+// console.log($('ul'));
+// console.log(list);
+$("ul").click(function(e){
+  if(e.target.tagName === 'LI') {
+    e.target.classList.toggle('checked');
+  }
+
+})
+// $('ul').on('click', function (e) {
+//   if (e.target.tagName === 'li') {
+//     e.target.classList.toggle('checked');
+//   }
+// }, false);
+
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = $('<li />');
+
+  var len = $('li .num').length;
+  console.log(len);
+  let num = $('<span />').text(len+1+". ");
+  console.log(num);
+  num.attr("class","num");
+  // console.log("=="+$('#myInput').val());
+  li.append(num);
+
+  let li2 = $('<li />').append(
+    $('<span />').text((len+1)+". ").attr("class","num"),
+    $('<span />').text($('#myInput').val()+" (Due: "+$('#dueDate').val()+")")
+  )
+
+  // li2.text($('#myInput').val()+" (Due: "+$('#dueDate').val()+")");
+  console.log(li2);
+
+  if ($('#myInput').val() === '') {
+    alert("You must write something!");
+  }
+  else if($('#dueDate').val() === '') {
+    alert("날짜적으세요");
+  }
+  else {
+    $('#myUL').append(li2);
+  }
+  $('#myInput').val("");
+  $('#dueDate').val("");
+
+  let span2 = $('<span />').text("\u00D7");
+  span2.attr("class", "close");
+  li2.append(span2);
+
+  $('.close').on('click', function(e) {
+  this.parentElement.style.display = "none";
+})
+
+  // var li = document.createElement("li");
+  // var inputValue = document.getElementById("myInput").value;
+  // var t = document.createTextNode(inputValue);
+  // li.appendChild(t);
+  // if (inputValue === '') {
+  //   alert("You must write something!");
+  // } else {
+  //   document.getElementById("myUL").appendChild(li);
+  // }
+  // document.getElementById("myInput").value = "";
+
+  // var span = document.createElement("SPAN");
+  // var txt = document.createTextNode("\u00D7");
+  // span.className = "close";
+  // span.appendChild(txt);
+  // li.appendChild(span);
+
+
+
+
+  // $('<li />').text($('#myInput').val());
+  // console.log($('#myInput').val());
+  // console.log($('<li />').text($('#myInput').val()));
+  // console.log(li);
+}
+
+
+</script>
+
+</body>
+</html>

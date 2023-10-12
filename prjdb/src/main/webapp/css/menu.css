@@ -1,0 +1,30 @@
+@charset "UTF-8";
+nav{
+	background-color: black;
+	height: 50px;
+}
+ul{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+	display: inline-block;
+	width: 12.5%;
+	line-height: 50px;
+}
+a{
+	color: white;
+	text-decoration: none;
+	display: block;
+	font-weight: bold;
+}
+li:hover{
+	background-color: #ccc;
+}
+li:hover a{
+	color: black;
+}
+#name{
+	color: white;
+}

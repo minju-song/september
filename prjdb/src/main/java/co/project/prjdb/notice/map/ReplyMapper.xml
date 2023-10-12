@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.project.prjdb.notice.map.ReplyMapper">
+	
+	<select id="replySelectList" resultType="co.project.prjdb.notice.service.ReplyVO">
+		SELECT * FROM TBL_REPLY WHERE NOTICE_ID = #{noticeId} ORDER BY REPLY_ID
+	</select>
+	
+	
+	<select id="selectReply">
+		SELECT * FROM TBL_REPLY WHERE REPLY_ID = #{replyId}
+	</select>
+	
+	
+	<insert id="insertReply">
+		<selectKey keyProperty="replyId,replyDate" resultType="co.project.prjdb.notice.service.ReplyVO" order="BEFORE">
+			SELECT SEQ_REPLY.NEXTVAL AS replyId, SYSDATE AS replyDate FROM DUAL
+		</selectKey>
+		INSERT INTO TBL_REPLY (REPLY_ID, NOTICE_ID, REPLYER, REPLY) 
+		VALUES(#{replyId}, #{noticeId}, #{replyer}, #{reply})
+	</insert>
+	
+	
+	<update id="updateReply">
+		UPDATE TBL_REPLY SET REPLY = #{reply}, UPDATE_DATE = SYSDATE WHERE REPLY_ID = #{replyId}
+	</update>
+	
+	
+	<delete id="deleteReply">
+		DELETE FROM TBL_REPLY WHERE REPLY_ID = #{replyId}
+	</delete>
+	
+	<select id="listEvent" resultType="co.project.prjdb.notice.service.EventVO">
+		SELECT * FROM EVENTS
+	</select>
+	
+	<insert id="insertEvent" parameterType="co.project.prjdb.notice.service.EventVO">
+		INSERT INTO EVENTS VALUES(#{title}, #{startDate},#{endDate})
+	</insert>
+	
+</mapper>

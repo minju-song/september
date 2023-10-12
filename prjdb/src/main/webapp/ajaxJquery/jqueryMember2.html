@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>jqueryMember2.html</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<div id="addMember">
+		<label>ID</label><input type="text" name="id" value="user1">
+		<label>이름</label><input type="text" name="name">
+		<label>점수</label><input type="text" name="score">
+		<button id="addBtn">추가</button>
+	</div>
+	<br><br>
+	<div id="memberList">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>점수</th>
+					<th><input type="checkbox" id="cbox"/></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>user1</td>
+					<td>홍길동</td>
+					<td>80</td>
+					<td><input type="checkbox" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		const members = [
+			{id: "user1", name: "Hong", score: 80},
+			{id: "user2", name: "Park", score: 85},
+			{id: "user3", name: "Hwang", score: 77},
+		]
+
+		$('tbody').html('')
+		members.forEach(member => {
+			let tr = $('<tr />').append(//
+				$('<td />').text(member.id),
+				$('<td />').text(member.name),
+				$('<td />').text(member.score),
+				$('<td />').append($('<input />').attr('type', 'checkbox'))
+			);
+			$('tbody').append(tr);
+		})
+
+		// 등록이벤트.
+		$('#addBtn').on('click', function (e) {
+			let tr = $('<tr />').append(//
+				$('<td />').text($('input[name="id"]').val()),
+				$('<td />').text($('input[name="name"]').val()),
+				$('<td />').text($('input[name="score"]').val()),
+				$('<td />').append($('<input />').attr('type', 'checkbox'))
+			);
+			$('tbody').append(tr);
+			// 초기입력상태.
+			$('input[name="id"]').val('')
+			$('input[name="name"]').val('')
+			$('input[name="score"]').val('')
+		});
+		
+		
+		$('thead>tr>th>input:checkbox').on('change', function(e) {
+			$('tbody input:checkbox').prop('checked', e.target.checked);
+		})
+		
+		$('tbody input:checkbox').on('change', function(e){
+			if (($('tbody input:checkbox:checked').length) != ($('tbody input:checkbox').length)) {
+				$('thead input:checkbox').prop('checked', false);
+			}
+			else {
+				$('thead input:checkbox').prop('checked', true);
+			}
+		
+			
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    <script>
+        let json = `[{"name":"송민주", "age":26}, {"name":"홍길동", "age":37}]`;
+        //json 포맷의 문자 => 자바스크립트의 객체로 쉽게 변환 가능 (반대도 가능)  JSON.parse() / JSON.stringify()
+        let obj = JSON.parse(json);
+        console.log(obj);
+
+        let str = JSON.stringify(obj);
+        console.log(str);
+    </script>
+    <style>
+		body {
+			font-family: 'NanumSquareRound';
+		}
+	</style>
+</head>
+<body>
+    <h3>&#127754;&#128153;Asynchronous Javascript And Xml&#128153;&#127754;</h3>
+    <ul id="list">
+        <li>first + last</li>
+    </ul>
+
+    <script>
+        //Ajax 처리 객체: XMLHttpRequest
+        let ajx = new XMLHttpRequest();
+        ajx.open('get', '../AjaxReplyList.do?nid=1'); // XML = eXtensible Markup Language
+        ajx.send();
+        ajx.onload = getReply;
+
+        function genXML() {
+            console.log(ajx.responseXML);
+            let xml = ajx.responseXML;
+            let records = xml.getElementsByTagName('record');
+            for(let i=0; i<records.length; i++) {
+                let li = document.createElement('li');
+                li.innerText = records[i].children[1].innerHTML +" "+ records[i].children[2].innerHTML;
+                document.getElementById('list').appendChild(li);
+            }
+        }
+
+        function getJson() {
+            let data = JSON.parse(ajx.responseText);
+            for(let i = 0; i < data.length; i++) {
+                let li = document.createElement('li');
+                li.innerText = data[i].first_name +" "+data[i].last_name;
+                document.getElementById('list').appendChild(li);
+            }
+        }
+
+        function getReply() {
+            console.log(ajx.responseText);
+        }
+    </script>
+</body>
+</html>

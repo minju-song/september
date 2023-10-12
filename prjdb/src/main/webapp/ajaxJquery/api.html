@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>api.html</title>
+<style>
+    .center {
+      text-align: center;
+    }
+    
+    .pagination {
+      display: inline-block;
+    }
+    
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: background-color .3s;
+      border: 1px solid #ddd;
+      margin: 0 4px;
+    }
+    
+    .pagination a.active {
+      background-color: #4CAF50;
+      color: white;
+      border: 1px solid #4CAF50;
+    }
+    
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
+</head>
+<body>
+    시도선택 : 
+    <select class="sidoList">
+        <option value="전체">전체</option>
+    </select>
+    <br>
+    <hr>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>센터ID</th>
+                <th>센터명</th>
+                <th>전화번호</th>
+                <th>주소</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody id="list">
+
+        </tbody>
+    </table>
+
+    <div class="center">
+        <div class="pagination">
+
+        </div>
+    </div>
+    <script>
+        let url = `https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&serviceKey=o8RNGYmNHke8%2BvKXrVW4aNfEyguMlpLvzf0ygHNqy52vsBya1NVbaGiu97JSNHQZvLPsVZPzR%2FxUGcC%2FHu2VxQ%3D%3D`;        
+        
+        let centerList = [];
+        
+        fetch(url)
+        .then(resolve => resolve.json()) //문자열 -> 객체
+        .then(json=>{
+            console.log(json);
+            console.log(`전체 건수 ${json.totalCount}`);
+            let sidos = [];
+            centerList = json.data;
+
+            for(let i = 0; i < centerList.length; i++) {
+                if (sidos.indexOf(centerList[i].sido) == -1) {
+                    sidos.push(centerList[i].sido);
+                }
+            }
+            console.log(sidos);
+
+            for(let i = 0; i<sidos.length; i++) {
+                let opt = document.createElement('option');
+                opt.innerText = sidos[i];
+                opt.setAttribute('value', sidos[i]);
+                document.querySelector('.sidoList').appendChild(opt);
+            }
+            // centerList.forEach((center,idx) => {
+            //     if(idx<10) {
+			// 		let tr = makeTr(center);
+			// 		document.querySelector('#list').appendChild(tr);
+
+            //     }
+			// });
+            showPageList(1, centerList);
+        }) 
+        
+        //시도 체인지 이벤트
+        document.querySelector('select.sidoList').addEventListener('change', function (e) {
+            // console.log(this.value);
+            let newAry = [];
+            // let list2 = [];
+            // console.log(centerList);
+            if(this.value == "전체") {
+                showPageList(1, centerList);
+            }
+            else {
+                for(let i =0; i<centerList.length; i++) {
+                    // console.log(centerList[i].sido);
+                    if(centerList[i].sido == this.value) {
+                        // console.log(centerList[i]);
+                        newAry.push(centerList[i]);
+                    }
+                }
+                showPageList(1, newAry);
+            }
+            // console.log(list2);
+            //centerList
+        })
+
+        // 센터정보를 이용해서 tr 생성
+        function makeTr(center) {
+			let tr = document.createElement('tr');
+					['id', 'centerName', 'phoneNumber', 'address'].forEach(prop => {
+						let td = document.createElement('td');
+                        if (prop == 'centerName') {
+                            let atag = document.createElement('a');
+                            atag.innerText = center[prop];
+                            atag.setAttribute('href', 'map.jsp?lat='+center.lat+'&lng='+center.lng+'&centerName='+center.centerName);
+                            atag.setAttribute('target','_blank');
+                            td.appendChild(atag);
+                        }
+                        else {
+                            td.innerText = center[prop];
+                        }
+						tr.appendChild(td);
+					})
+                    let td = document.createElement('td');
+                    let btn = document.createElement('button');
+                    btn.innerText = '삭제';
+                    td.appendChild(btn);
+                    btn.addEventListener('click', function(e) {
+						console.log(e.target.parentElement.parentElement);
+                        // list = list.splice(i,1);
+                        // showPageList(page, list);
+                        e.target.parentElement.parentElement.remove();
+                    })
+                    tr.appendChild(td);
+					return tr;
+		}
+
+        //page정보를 매개값으로 가지는 페이지, 목록 보여주는 함수
+        function showPageList(page = 1, targetList = []) {
+            let totalCount = targetList.length;
+            //페이지의 목록을 보여주기
+            document.querySelector('#list').innerHTML = '';
+            let start = (page - 1) * 10;
+            let end = page*10;
+            end = end > totalCount ? totalCount : end;
+            for(let i = start; i < end; i++) {
+                let tr = makeTr(targetList[i]);
+                document.querySelector('#list').appendChild(tr);
+            }
+            
+            //페이지의 링크 생성
+            document.querySelector('.pagination').innerHTML = '';
+            // let endPage = Math.ceil(totalCount / 10);
+            let endPage = Math.ceil(page/10) * 10; // 1 -> 10
+            let realEndPage = Math.ceil(totalCount / 10); //29
+            let startPage = endPage - 9; //1
+            endPage = endPage > realEndPage ? realEndPage : endPage;
+            let next = endPage < Math.ceil(totalCount / 10);
+            let prev = startPage > 1;
+
+            if(prev) {
+                let atag = document.createElement('a');
+                atag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPageList(startPage - 1,targetList);
+                })
+                atag.setAttribute('href',startPage - 1);
+                atag.innerHTML = '&laquo;';
+                document.querySelector('.pagination').appendChild(atag);
+            }
+
+            for(let i = startPage; i <= endPage; i++) {
+                let atag = document.createElement('a');
+                atag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPageList(i,targetList);
+                })
+                if(page == i) {
+                    atag.setAttribute('class', 'active');
+                }
+                atag.setAttribute('href',i);
+                atag.innerHTML = i;
+                document.querySelector('.pagination').appendChild(atag);
+            }
+
+            if(next) {
+                let atag = document.createElement('a');
+                atag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPageList(endPage + 1,targetList);
+                })
+                atag.setAttribute('href',endPage + 1);
+                atag.innerHTML = '&raquo;';
+                document.querySelector('.pagination').appendChild(atag);
+            }
+        }
+    </script>
+
+</body>
+</html>

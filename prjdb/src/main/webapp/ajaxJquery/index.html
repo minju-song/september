@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'NanumSquareRound';
+        }
+        
+        #memberList {
+            text-align: center;
+        }
+
+        th, td {
+            width: 100px;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <ul>
+        <li class="first">Apple</li>
+        <li class="first">Banana</li>
+    </ul>
+    
+    <div id="clone"></div>
+    <ul id="myHobby"></ul>
+    <ul class="fruits">
+        <li>A</li>
+        <li>B</li>
+        <li>C</li>
+    </ul>
+
+    <table border="1">
+        <tbody>
+            <tr>
+                <th>이름</th>
+                <td><input name="name" value="홍길동"></td>
+            </tr>
+            <tr>
+                <th>나이</th>
+                <td><input name="age" value="20"></td>
+            </tr>
+            <tr>
+                <th>연락처</th>
+                <td><input name="phone" value="010-1111"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="add">등록</button>
+                    <button>수정</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br><Br>
+    <table border="1" id="memberList">
+        <thead>
+            <th>이름</th>
+            <th>나이</th>
+            <th>연락처</th>
+            <th>삭제</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>송민주</td>
+                <td>26</td>
+                <td>010-8225</td>
+                <td><button>삭제</button></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <script src="dom.js"></script>
+    <script src="obj.js"></script>
+    <script src="ary.js"></script>
+    <script src="objAry.js"></script>
+</body>
+</html>

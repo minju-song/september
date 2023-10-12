@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.project.prjdb.book.map.BookMapper">
+	<insert id="bookInsert" parameterType="co.project.prjdb.book.service.BookVO">
+		INSERT INTO BOOK VALUES(#{bookId}, #{bookName}, #{bookWriter}, #{bookCompany}, #{bookPrice})
+	</insert>
+
+	<select id="bookList" resultType="co.project.prjdb.book.service.BookVO">
+		SELECT * FROM BOOK ORDER BY BOOK_ID
+	</select>
+	
+	<delete id="bookRemove">
+		DELETE BOOK WHERE BOOK_ID = #{bookId}
+	</delete>
+</mapper>

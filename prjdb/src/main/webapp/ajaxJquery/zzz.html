@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+    .outer {
+        width: 420px;
+        height: 350px;
+        background-color: pink;
+    }
+    .outer span {
+        display: inline-block;
+        width: 100px;
+        margin: 5px;
+        border: 1px solid black;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <input type="text" class="userVal">
+    <button id="addBtn">입력</button>
+    <br><br>
+    <div class="outer">
+    </div>
+    남은 시간 : <p class="timer"></p>
+    <script>
+        let str = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, nulla nesciunt magni necessitatibus deserunt similique, perspiciatis corrupti porro tenetur, pariatur commodi? Iusto dignissimos id qui deleniti ab nulla omnis quos!';
+        let wordAry = str.split(' ');
+        console.log(wordAry);
+        for(let i = 0; i < wordAry.length; i++) {
+            makeSpan(wordAry[i]);
+        }
+
+        let timeLeft = 100;
+        let interval = setInterval(function () {
+            document.querySelector('.timer').innerHTML = timeLeft--;
+            if(timeLeft == 0) {
+                clearInterval(interval);
+                document.querySelector('.timer').innerHTML = "게임 끝";
+                if(document.querySelectorAll('span') == null) {
+                    alert("성공");
+                }
+                else {
+                    alert("실패");
+                }
+        }
+
+        }, 1000);
+
+        function makeSpan(str) {
+            let span = document.createElement('span');
+            span.innerText = str;
+            span.setAttribute('id',str);
+            document.querySelector('.outer').appendChild(span);
+        }
+
+        document.querySelector('#addBtn').addEventListener('click', function(e) {
+            let val = document.querySelector('.userVal').value;
+            // console.log(val);
+            // console.log(val);
+
+            let spans = document.querySelectorAll('span');
+            // console.log(ss);
+            for(let i = 0; i < spans.length; i++) {
+                // console.log(ss[i]);
+                // console.log(ss[i].innerHTML);
+                if (spans[i].innerHTML == val) {
+                    spans[i].remove();
+                }
+            }
+
+
+
+            // let spans = document.querySelector("#"+val);
+            // spans.remove();
+            document.querySelector('.userVal').value = "";
+        })
+
+
+    </script>
+</body>
+</html>

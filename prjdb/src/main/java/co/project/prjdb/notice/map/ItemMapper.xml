@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.project.prjdb.notice.map.ItemMapper">
+
+<select id="itemList" resultType="co.project.prjdb.notice.service.ItemVO">
+	SELECT * FROM ITEM ORDER BY ITEM_ID
+</select>
+
+<select id="itemSelect" resultType="co.project.prjdb.notice.service.ItemVO">
+	select * from item where item_id = #{itemId}
+</select>
+
+<select id="itemListFour" resultType="co.project.prjdb.notice.service.ItemVO">
+	select * from ( select * from item order by item_star desc) where rownum &lt;= 4
+</select>
+</mapper>
