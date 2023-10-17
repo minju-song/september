@@ -22,7 +22,7 @@ public class bookController extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = "book/index";
+		String page = "book/bookindex";
 		ViewResolve.forward(request, response, page);
 	}
 

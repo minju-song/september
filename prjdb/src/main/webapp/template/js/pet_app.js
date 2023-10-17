@@ -38,14 +38,11 @@ App = {
 
 	bindEvents: function(e) {
 		// 입양버튼에 이벤트 등록. ->markAdopted 활용
-
-		var btns = [];
-		btns = Array.from(document.querySelectorAll("button.btn-adopt"));
-
-		btns.forEach((b) => {
-			b.addEventListener("click", function() {
+		let btnevt = document.querySelectorAll('.btn-adopt');
+		btnevt.forEach((item,idx)=>{
+			item.addEventListener('click',function(){
 				App.markAdopted(this);
-			})
+			});
 		})
 
 	},
@@ -57,35 +54,34 @@ App = {
 		  return res.json()
 		})
 		.then((obj) => {
-			obj.forEach((adoptNum, idx) => {
-				App.adoptedAry.push(Number(adoptNum));
-
-			})
-
+			App.adoptedAry = obj;
+			// console.log(App.adoptedAry);
 			App.handleAdopt();
 		})
-
 	},
 
 	markAdopted: function(e) {
 		// 입양처리. adoptedAry에 추가.
-
-		let n = e.getAttribute("data-id");
-		App.adoptedAry.push(Number(n));
+		//console.log(e.getAttribute('data-id'));
+		App.adoptedAry.push(Number(e.getAttribute('data-id')));
+		//console.log(App.adoptedAry);
 		App.handleAdopt();
-
 	}, // end of markAdopted;
 
 	handleAdopt: function(event) {
 		// 사용자화면에서 입양버튼 클릭 시 처리.버튼 비활성화
+		//console.log(App.adoptedAry);
+	
+		App.adoptedAry.forEach((item,idx)=>{
+			//console.log(item);
+			//$('.btn-adopt[data-id=1]')
+			let complete=$('.btn-adopt[data-id='+item+']');
 
-		App.adoptedAry.forEach((num) => {
-			let btn = $('button.btn-adopt[data-id='+num+']');
-			
-			
-			btn.attr("disabled", true);
-			btn.html("입양완료");
+			complete.attr('disabled','true');
+			complete.html("입양완료");
 		})
+		
+		
 
 	} // end of handleAdopt;
 

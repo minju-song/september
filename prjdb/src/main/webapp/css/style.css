@@ -1,0 +1,61 @@
+ #container {
+        width: 70%;
+        margin: 0 auto;
+        border: 1px solid black;
+        padding: 10px;
+        font-family: 'NanumSquareRound';
+    }
+    .form-group{
+        display: flex;
+    }
+    
+    h1 {
+		text-align: center;	
+	}
+	
+    table {
+        border-spacing: 0px 10px;
+        border-collapse: separate;
+        margin-top: 10px;
+    }
+    label {
+        flex: 1;
+        background-color: palevioletred;
+        display: inline-block;
+        text-align: center;
+        font-size: small;
+        font-weight: bold;
+        line-height: 20px;
+    }
+    hr{
+        border: 0;
+        height: 2px;
+        background-color: black;
+    }
+    input {
+        flex: 2;
+    }
+    th {
+        width: 150px;
+        color: black;
+        text-align: center;
+      
+    }
+
+    tbody tr{
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin-bottom: 10px;
+        height: 30px;
+    }
+
+    td{
+        font-size: small;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        text-align: center;
+    }
+
+    button {
+        width: 70px;
+    }
